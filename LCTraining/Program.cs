@@ -1,6 +1,6 @@
 ﻿using ConsoleApp1;
-using ConsoleApp1.Design;
 using ConsoleApp1.MathAlgorithm;
+using LCTraining.Design;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,9 +52,6 @@ namespace LCTraining
             var res3 = Mathimatics.Instance.IsHappy(49);
 
 
-            var node = BinarySerilizor.Test();
-            var str = BinarySerilizor.Serialize(node);
-            var root = BinarySerilizor.Deserialize(str);
             //var res = SortAndSearch.Search(new[] { 4, 5, 6, 7, 0, 1, 2 }, 5);
             var matrix = new int[1][];
             matrix[0] = new[] { -5 };

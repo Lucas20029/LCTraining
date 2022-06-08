@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ConsoleApp1.Design
+namespace LCTraining.Design 
 {
     #region 初级
     //构造方法： 初始化输入一个 int 数组
