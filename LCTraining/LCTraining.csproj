@@ -42,8 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrStrLink.cs" />
+    <Compile Include="BinaryTree.cs" />
+    <Compile Include="Mathimatics.cs" />
+    <Compile Include="Design.cs" />
+    <Compile Include="DP.cs" />
+    <Compile Include="Other.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SortAndSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
