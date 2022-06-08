@@ -12,6 +12,14 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            var canJumpRes = DP.Instance.CanJump(new[] { 2, 3, 1, 1, 4 });
+            var maxSubArrayRes = DP.Instance.MaxSubArray(new[] { 2, 4, -5, 1, 3, -6, 7, -5, -3 });
+            maxSubArrayRes = DP.Instance.MaxSubArray(new[] { -2, -4, -5, 6, -1 });
+            maxSubArrayRes = DP.Instance.MaxSubArray(new[] { -2, -4, -5, -3 });
+            var node = Design.BinarySerilizor.Test();
+            var str = Design.BinarySerilizor.Serialize(node);
+            var root = Design.BinarySerilizor.Deserialize(str);
+
             var maxProfitResult = DP.Instance.MaxProfit(new[] { 7, 1, 5, 3, 6, 4 });
             var robResult = DP.Instance.Rob(new[] { 1, 2, 3, 1 });
             var sortedArrayToBSTResult = BinaryTree.Instance.SortedArrayToBST(new[] { 1, 2, 3, 4, 5,6,7,8,9 });
