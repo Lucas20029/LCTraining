@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCTraining", "LCTraining.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayNString", "Src\ArrayNString\ArrayNString.csproj", "{601C3684-22AF-42C9-9D71-B1D2F0DDC55F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP", "..\DP\DP.csproj", "{DEBADA5C-889C-47C7-B422-865370D83E45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{601C3684-22AF-42C9-9D71-B1D2F0DDC55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{601C3684-22AF-42C9-9D71-B1D2F0DDC55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{601C3684-22AF-42C9-9D71-B1D2F0DDC55F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBADA5C-889C-47C7-B422-865370D83E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBADA5C-889C-47C7-B422-865370D83E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBADA5C-889C-47C7-B422-865370D83E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBADA5C-889C-47C7-B422-865370D83E45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

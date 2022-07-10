@@ -218,6 +218,7 @@ namespace ConsoleApp1
         //然后这几个区段都有明显的特点。
         //例如：8 9 1 2 3 4 5， mid=2，必然 8>2
         //整个数组可以分为3个区段，  left~断点：8 9 ， 断点~mid：1 2， mid~right：3 4 5
+        //同 Leetcode #153
         public static int Search(int[] nums, int target)
         {
             int left = 0, right = nums.Length - 1;

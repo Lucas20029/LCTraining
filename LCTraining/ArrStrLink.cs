@@ -126,7 +126,7 @@ namespace LCTraining
             }
         }
         #endregion
-        #region 存在重复元素
+        #region #217. 存在重复元素
         /// <summary>
         /// 占用空间。
         /// </summary>
