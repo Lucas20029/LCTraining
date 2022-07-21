@@ -63,7 +63,20 @@ namespace LCTraining
             ways[n] = res;
             return res;
         }
-
+        //第3种解法：避免递归重复计算
+        public int ClimbStairs3(int n)
+        {
+            if (n == 1) return 1;
+            if (n == 2) return 2;
+            int prev = 2, pprev = 1;
+            for (int i = 3; i <= n; i++)
+            {
+                int t = prev + pprev;
+                pprev = prev;
+                prev = t;
+            }
+            return prev;
+        }
 
         //思路：双指针
         public int MaxProfit(int[] prices)

@@ -860,6 +860,43 @@ namespace LCTraining
             return false;
         }
         #endregion
+
+        #region #565. 数组嵌套
+        // 思路： 这题的入参有很强的规律性：
+        // 1. 数组大小为N，且元素为 0~N-1，且不重复。 相当于把0~N-1个数字，洒在数组每个元素中，不多不少。
+        // 2. 在纸上画一下，可以看到，按题目要求，必定会有环。
+        //因此，每次找的时候，把路过的元素标为-1，表示已经来过，保证不会重复。
+        public int ArrayNesting(int[] nums)
+        {
+            int max = 0;
+            int steps = 0;
+            while (true)
+            {
+                int index = FindFirstNum(nums);
+                if (index == -1)
+                    return max;
+                while (nums[index] != -1)
+                {
+                    int t = nums[index];
+                    nums[index] = -1;
+                    index = t;
+                    steps++;
+                }
+                max = Math.Max(max, steps);
+                steps = 0;
+            }
+            return max;
+        }
+        public int FindFirstNum(int[] nums)
+        {
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] != -1)
+                    return i;
+            }
+            return -1;
+        }
+        #endregion
         #endregion
 
         #region 链表--初级
