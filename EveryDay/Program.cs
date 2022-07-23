@@ -10,6 +10,12 @@ namespace DataStructure
     {
         static void Main(string[] args)
         {
+            Day5 d5 = new Day5();
+            var s= d5.Convert("PAYPALISHIRING", 3);
+
+            int[] nums1 =new[] { 1,1,3,5,6,7,7,9};
+            int[] nums2 = new [] { 2,3};
+            d5.FindMedianSortedArrays(nums1, nums2);
             Day1 d1 = new Day1();
             Day2 d2 = new Day2();
             d2.PrintKMoves(2);
