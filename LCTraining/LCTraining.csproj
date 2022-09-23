@@ -46,6 +46,7 @@
     <Compile Include="BinaryTree.cs" />
     <Compile Include="Mathimatics.cs" />
     <Compile Include="Design.cs" />
+    <Compile Include="BackTrack.cs" />
     <Compile Include="DP.cs" />
     <Compile Include="Other.cs" />
     <Compile Include="Program.cs" />
