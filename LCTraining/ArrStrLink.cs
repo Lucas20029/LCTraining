@@ -1170,5 +1170,57 @@ namespace LCTraining
         #endregion
 
 
+        #region 24. 两两交换链表中的节点
+        //每2个节点一次循环:
+        /*示例： 1->2->3->4->5->6
+         * 1：  2->1->3->4->5->6
+         * 2：  2->1->4->3->5->6
+         * 第二步要做3件事：
+         *   1. 让4->3
+         *   2. 让3->5
+         *   3. 让1->4
+        */
+        public static void TestSwapPairs()
+        {
+            ListNode head = new ListNode() { val = 1, next = new ListNode() { val = 2, next = new ListNode { val = 3, next = new ListNode { val = 4, next = new ListNode { val = 5, next = new ListNode { val = 6 } } } } } };
+            var result = SwapPairs(head);
+        }
+
+        public static ListNode SwapPairs(ListNode head)
+        {
+            if (head == null)
+                return null;
+            if (head.next == null)
+                return head;
+            bool isfirst = true;
+
+            var newHead = head.next;
+            var point = head;
+            ListNode prev = null;
+            while (true)
+            {
+                if (point?.next == null)
+                    break;
+                var temp = point.next.next;
+                var thisHead = point.next;
+                point.next.next = point;
+                point.next = temp;
+                if (isfirst)
+                {
+                    isfirst = false;
+                    prev = point;
+                }
+                else
+                {
+                    prev.next = thisHead;
+                    prev = point;
+                }
+
+                point = point?.next;
+            }
+            return newHead;
+        }
+        #endregion
+
     }
 }

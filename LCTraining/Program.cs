@@ -12,6 +12,8 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Other.Instance.Decrypt_Test();
+            ArrStrLink.TestSwapPairs();
             var canJumpRes = DP.Instance.CanJump(new[] { 2, 3, 1, 1, 4 });
             var maxSubArrayRes = DP.Instance.MaxSubArray(new[] { 2, 4, -5, 1, 3, -6, 7, -5, -3 });
             var subsetResult = BackTrack.Instance.Subsets(new[] { 1,2,3,4,5});
