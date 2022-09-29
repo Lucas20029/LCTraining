@@ -347,5 +347,77 @@ namespace DataStructure
             nums[b] = t;
         }
         #endregion
+
+
+
+        #region 43 字符串相乘、  415 字符串相加
+
+        public void TestAddString_Multiply()
+        {
+            var res1 = AddString("96", "109") == "205";
+            var res2 = AddString("956", "79") == "1035";
+            var res3 = MultiplyDigit("395", 3) == "1185";
+            var res4 = Multiply("359", "1680") == "603120";
+        }
+        public string Multiply(string num1, string num2)
+        {
+            if (num1 == "0" || num2 == "0")
+                return "0";
+            List<string> midResults = new List<string>();
+            for (int i = 0; i < num2.Length; i++)
+            {
+                var factor2 = num2[num2.Length - 1 - i] - '0';
+                var midRes = MultiplyDigit(num1, factor2);
+                midRes = midRes + new string('0', i);
+                midResults.Add(midRes);
+            }
+            string result = "0";
+            foreach (var midRes in midResults)
+            {
+                result = AddString(result, midRes);
+            }
+            return result;
+        }
+        public string MultiplyDigit(string num1, int factor)
+        {
+            StringBuilder builder = new StringBuilder();
+            int carry = 0;
+            for (int i = 0; i < num1.Length; i++)
+            {
+                var factor1 = num1[num1.Length - 1 - i] - '0';
+                var square = factor1 * factor + carry;
+                var sum = square % 10;
+                carry = square / 10;
+                builder.Insert(0, (char)(sum + '0'));
+            }
+            if (carry > 0)
+                builder.Insert(0, carry);
+            return builder.ToString();
+        }
+
+        //415. 字符串相加
+        private string AddString(string num1, string num2)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            var maxLength = Math.Max(num1.Length, num2.Length);
+            bool carry = false;
+            for (int i = 0; i < maxLength; i++)
+            {
+                var index1 = num1.Length - 1 - i;
+                var index2 = num2.Length - 1 - i;
+
+                var digit1 = index1 >= 0 ? num1[index1] : '0';
+                var digit2 = index2 >= 0 ? num2[index2] : '0';
+
+                int sum = (digit1 - '0') + (digit2 - '0') + (carry ? 1 : 0);
+                carry = sum >= 10 ? true : false;
+                char cur = sum >= 10 ? (char)(sum - 10 + '0') : (char)(sum + '0');
+                stringBuilder.Insert(0, cur);
+            }
+            if (carry)
+                stringBuilder.Insert(0, '1');
+            return stringBuilder.ToString();
+        }
+        #endregion
     }
 }
