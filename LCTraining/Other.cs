@@ -219,5 +219,35 @@ namespace LCTraining
             return taskCount > needWaitingCase ? taskCount : needWaitingCase;
         }
         #endregion
+
+        #region 1652 拆炸弹  简单
+        public void Decrypt_Test()
+        {
+            var res = Decrypt(new[] { 2,4,9,3 }, -2);
+        }
+        public int[] Decrypt(int[] code, int k)
+        {
+            List<int> result = new List<int>();
+            for(int i = 0; i < code.Length; i++)
+            {
+                result.Add(SumKElements(code, k, i));
+            }
+            return result.ToArray();
+        }
+        private int SumKElements(int [] code, int k, int index)
+        {
+            if (k == 0)
+                return 0;
+            int sum = 0;
+            for(int i = 1; i <= Math.Abs(k); i++)
+            {
+                if (k > 0)
+                    sum += code[(i + index) % code.Length];
+                else
+                    sum += code[(-i+index+ code.Length) %code.Length]; //注意，要加上code.Length，避免index出现负数
+            }
+            return sum;
+        }
+        #endregion
     }
 }

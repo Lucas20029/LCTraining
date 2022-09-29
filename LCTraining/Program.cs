@@ -12,8 +12,13 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Other.Instance.Decrypt_Test();
+            ArrStrLink.TestSwapPairs();
             var canJumpRes = DP.Instance.CanJump(new[] { 2, 3, 1, 1, 4 });
             var maxSubArrayRes = DP.Instance.MaxSubArray(new[] { 2, 4, -5, 1, 3, -6, 7, -5, -3 });
+            var subsetResult = BackTrack.Instance.Subsets(new[] { 1,2,3,4,5});
+            var permuteResult = BackTrack.Instance.Permute(new[] {1,2,3,4,5 });
+            var parenthesisResult = BackTrack.Instance.GenerateParenthesis(3);
             maxSubArrayRes = DP.Instance.MaxSubArray(new[] { -2, -4, -5, 6, -1 });
             maxSubArrayRes = DP.Instance.MaxSubArray(new[] { -2, -4, -5, -3 });
             var node = Design.BinarySerilizor.Test();
@@ -57,60 +62,5 @@ namespace LCTraining
             matrix[0] = new[] { -5 };
             var res = SortAndSearch.SearchMatrix(matrix, -5);
         }
-    }
-
-
-    public class BackTrack
-    {
-        public static BackTrack Instance = new BackTrack();
-
-        public IList<string> LetterCombinations(string digits)
-        {
-            if (string.IsNullOrEmpty(digits))
-                return new List<string>();
-            Dictionary<char, string> Lookup = new Dictionary<char, string>
-            {
-                { '2', "abc" },
-                { '3', "def" },
-                { '4', "ghi" },
-                { '5', "jkl" },
-                { '6', "mno" },
-                { '7', "pqrs" },
-                { '8', "tuv" },
-                { '9', "wxyz" },
-            };
-            var elements = digits.Select(d => Lookup[d]).ToList();
-            var sbs = elements[0].Select(c => new StringBuilder(c.ToString())).ToList();
-
-            for (int i = 1; i < elements.Count; i++)
-            {
-                AppendCharToTail(sbs, elements[i]);
-            }
-            return sbs.Select(sb => sb.ToString()).ToList() ;
-        }
-        public List<StringBuilder> AppendCharToTail(List<StringBuilder> sbs, string c)
-        {
-            int count = sbs.Count;
-            for(int i = 0; i < count; i++)
-            {
-                for(int j = 1; j < c.Length; j++)
-                {
-                    var newsb = Clone(sbs[i]);
-                    newsb.Append(c[j]);
-                    sbs.Add(newsb);
-                }
-                sbs[i].Append(c[0]);
-            }
-            return sbs;
-        }
-        public StringBuilder Clone(StringBuilder sb)
-        {
-            StringBuilder newsb = new StringBuilder();
-            for (int i=0;i<sb.Length;i++)
-                newsb.Append(sb[i]);
-            return newsb;
-        }
-
-    }
-         
+    }   
 }
