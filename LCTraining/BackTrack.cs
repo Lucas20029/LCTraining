@@ -106,9 +106,13 @@ namespace LCTraining
         //}
         #endregion
 
-
         #region 17 电话号码
+        /* 题目：
+         给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回
 
+         输入：digits = "23"
+         输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
+         */
         public IList<string> LetterCombinations(string digits)
         {
             if (string.IsNullOrEmpty(digits))
@@ -157,5 +161,7 @@ namespace LCTraining
         }
 
         #endregion
+
+
     }
 }
