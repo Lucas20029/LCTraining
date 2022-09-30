@@ -11,7 +11,7 @@ namespace LCTraining
         public static BackTrack Instance = new BackTrack();
 
 
-        #region 括号生成
+        #region 22. 括号生成
         //思路：逐个字符地向Str中追加。人脑模拟一次：
         /*
          * ( 
@@ -56,7 +56,7 @@ namespace LCTraining
         }
         #endregion
 
-        #region 全排列
+        #region 46. 全排列
         //思路：逐个向结果中添加 数字。 每一步遍历所有可能
         List<IList<int>> permuteResult = new List<IList<int>>();
         public IList<IList<int>> Permute(int[] nums)
@@ -78,7 +78,7 @@ namespace LCTraining
 
         #endregion
 
-        #region 子集
+        #region 78. 子集
         public IList<IList<int>> Subsets(int[] nums)
         {
             List<IList<int>> result = new List<IList<int>>();
@@ -107,7 +107,7 @@ namespace LCTraining
         #endregion
 
 
-        #region
+        #region 17 电话号码
 
         public IList<string> LetterCombinations(string digits)
         {
