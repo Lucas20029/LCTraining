@@ -247,5 +247,177 @@ namespace DataStructure
             }
             return new string(text.ToArray());
         }
+
+        /// <summary>
+        /// #11. 盛最多水的容器
+        /// 双指针。从两头开始，向中间挤。 谁小移动谁（用未来可能的高度换宽度）
+        /// 例如：[1,8,6,2,5,4,8,3,7]
+        /// 一开始定位在 1,7， 那么容积是 min(1,7)*8 = 8
+        /// 此时，应该移动小的。
+        /// 因为如果移动7，那么宽度肯定是缩小了，而高度=min(1,X)肯定只会比1小，因此得不到最大容积。
+        /// 所以只能移动小的。
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public int MaxArea(int[] height)
+        {
+            int left = 0, right = height.Length - 1;
+            int max = 0;
+            while (left < right)
+            {
+                var volumn = Math.Min(height[left], height[right]) * (right - left);
+                max = Math.Max(max, volumn);
+                if (height[left] < height[right])
+                    left++;
+                else
+                    right--;
+            }
+            return max;
+        }
+
+
+        #region #31. 下一个排列
+        /// <summary>
+        /// 31. 下一个排列
+        ///例如，以下数列就是逐渐下一个排列：
+        ///12345
+        ///12345
+        ///12435
+        ///12453
+        ///12534
+        ///12543
+        ///13245
+        ///13254
+        ///13452
+        ///13524
+        ///13542
+        ///14235
+        ///14253....
+        ///....
+        ///15432
+        ///21345
+        ///21354
+        ///....
+        ///
+        ///1.从尾向前遍历，需要 逐渐递增。 一旦不递增，就是要修改该点
+        ///2.从末尾找第一个比该点大的数，拿过来（放到该点位置）
+        ///3.剩下的数字递增
+        /// </summary>
+        /// <param name="nums"></param>
+        public void NextPermutation(int[] nums)
+        {
+            
+            var pos = nums.Length - 1;
+            bool max = true;
+            for (int i = nums.Length - 2; i >= 0; i--)
+            {
+                if (nums[i] < nums[pos])
+                {
+                    pos = i; max = false; break;
+                }
+                pos--;
+            }
+            if (max)
+            {
+                PartialyReverse(nums, 0, nums.Length - 1);
+                return;
+            }
+            for (int i = nums.Length - 1; i >= 0; i--)
+            {
+                if (nums[i] > nums[pos])
+                {
+                    Swap(nums, i, pos);
+                    break;
+                }
+            }
+            PartialyReverse(nums, pos + 1, nums.Length - 1);
+        }
+        public void PartialyReverse(int[] nums, int start, int end)
+        {
+            while (start < end)
+            {
+                Swap(nums, start, end);
+                start++; end--;
+            }
+        }
+        public void Swap(int[] nums, int a, int b)
+        {
+            int t = nums[a];
+            nums[a] = nums[b];
+            nums[b] = t;
+        }
+        #endregion
+
+
+
+        #region 43 字符串相乘、  415 字符串相加
+
+        public void TestAddString_Multiply()
+        {
+            var res1 = AddString("96", "109") == "205";
+            var res2 = AddString("956", "79") == "1035";
+            var res3 = MultiplyDigit("395", 3) == "1185";
+            var res4 = Multiply("359", "1680") == "603120";
+        }
+        public string Multiply(string num1, string num2)
+        {
+            if (num1 == "0" || num2 == "0")
+                return "0";
+            List<string> midResults = new List<string>();
+            for (int i = 0; i < num2.Length; i++)
+            {
+                var factor2 = num2[num2.Length - 1 - i] - '0';
+                var midRes = MultiplyDigit(num1, factor2);
+                midRes = midRes + new string('0', i);
+                midResults.Add(midRes);
+            }
+            string result = "0";
+            foreach (var midRes in midResults)
+            {
+                result = AddString(result, midRes);
+            }
+            return result;
+        }
+        public string MultiplyDigit(string num1, int factor)
+        {
+            StringBuilder builder = new StringBuilder();
+            int carry = 0;
+            for (int i = 0; i < num1.Length; i++)
+            {
+                var factor1 = num1[num1.Length - 1 - i] - '0';
+                var square = factor1 * factor + carry;
+                var sum = square % 10;
+                carry = square / 10;
+                builder.Insert(0, (char)(sum + '0'));
+            }
+            if (carry > 0)
+                builder.Insert(0, carry);
+            return builder.ToString();
+        }
+
+        //415. 字符串相加
+        private string AddString(string num1, string num2)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            var maxLength = Math.Max(num1.Length, num2.Length);
+            bool carry = false;
+            for (int i = 0; i < maxLength; i++)
+            {
+                var index1 = num1.Length - 1 - i;
+                var index2 = num2.Length - 1 - i;
+
+                var digit1 = index1 >= 0 ? num1[index1] : '0';
+                var digit2 = index2 >= 0 ? num2[index2] : '0';
+
+                int sum = (digit1 - '0') + (digit2 - '0') + (carry ? 1 : 0);
+                carry = sum >= 10 ? true : false;
+                char cur = sum >= 10 ? (char)(sum - 10 + '0') : (char)(sum + '0');
+                stringBuilder.Insert(0, cur);
+            }
+            if (carry)
+                stringBuilder.Insert(0, '1');
+            return stringBuilder.ToString();
+        }
+        #endregion
     }
 }
