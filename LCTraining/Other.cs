@@ -249,5 +249,93 @@ namespace LCTraining
             return sum;
         }
         #endregion
+
+
+        #region 15 三数之和 --双指针
+        //思路：排序， 然后逐个遍历， 把3数之和降为2数之和。  2数之和，使用首尾双指针解决
+        //难点：在于如何去除重复解。
+        /*
+        特判，对于数组长度 nn，如果数组为 nullnull 或者数组长度小于 33，返回 [][]。
+        对数组进行排序。
+        遍历排序后数组：
+        若 nums[i]>0nums[i]>0：因为已经排序好，所以后面不可能有三个数加和等于 00，直接返回结果。
+        对于重复元素：跳过，避免出现重复解
+        令左指针 L=i+1L=i+1，右指针 R=n-1R=n−1，当 L<RL<R 时，执行循环：
+        当 nums[i]+nums[L]+nums[R]==0nums[i]+nums[L]+nums[R]==0，执行循环，判断左界和右界是否和下一位置重复，去除重复解。并同时将 L,RL,R 移到下一位置，寻找新的解
+        若和大于 00，说明 nums[R]nums[R] 太大，RR 左移
+        若和小于 00，说明 nums[L]nums[L] 太小，LL 右移
+
+        
+        链接：https://leetcode.cn/problems/3sum/solution/pai-xu-shuang-zhi-zhen-zhu-xing-jie-shi-python3-by/
+             
+        */
+        public void ThreeSum_Test()
+        {
+            int[] nums = new int[] { -5,-3,-3,-1,1,2,4 };
+            nums = new int[] { 0,0,0};
+            var res = ThreeSum(nums);
+        }
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            List<IList<int>> result = new List<IList<int>>();
+            if (nums == null || nums.Length < 3)
+                return result;
+
+            nums = nums.OrderBy(p => p).ToArray();
+            int lastVal = int.MaxValue;
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if (lastVal != int.MaxValue && lastVal == nums[i])
+                {
+                    lastVal = nums[i];
+                    continue;
+                }
+                var res = TwoSum(nums, -nums[i], i);
+                result.AddRange(res);
+                lastVal = nums[i];
+            }
+            return result;
+        }
+        public IList<IList<int>> TwoSum(int [] nums, int target, int skipIndex)
+        {
+            List<IList<int>> result = new List<IList<int>>();
+            int left = skipIndex+1, right = nums.Length-1;
+            while (left < right)
+            {
+                if(left==skipIndex)
+                {
+                    left++;
+                    continue;
+                }
+                if (right == skipIndex)
+                {
+                    right--;
+                    continue;
+                }
+                var sum = nums[left] + nums[right];
+                if (sum < target)
+                    left++;
+                else if (sum > target)
+                    right--;
+                else //==
+                {
+                    result.Add(new List<int> { -target, nums[left], nums[right] });
+                    int leftVal = nums[left], rightVal = nums[right];
+                    while (left<nums.Length && nums[left] == leftVal)
+                        left++;
+                    while (right>=0 && nums[right] == rightVal)
+                        right--;
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        //#region 9 回文数
+        //public bool IsPalindrome(int x)
+        //{
+
+        //}
+        //#endregion
     }
 }

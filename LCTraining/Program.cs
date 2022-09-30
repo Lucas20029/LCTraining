@@ -12,6 +12,7 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Other.Instance.ThreeSum_Test();
             Other.Instance.Decrypt_Test();
             ArrStrLink.TestSwapPairs();
             var canJumpRes = DP.Instance.CanJump(new[] { 2, 3, 1, 1, 4 });
