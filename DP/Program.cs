@@ -10,6 +10,8 @@ namespace DP
     {
         static void Main(string[] args)
         {
+            DPAll da = new DPAll();
+            da.Test_MinPathSum();
             Day5 d5 = new Day5();
             int res =d5.MaxSubarraySumCircular(new[] { 5, -3, 5 });
             int[] arr = new int[10];
@@ -270,6 +272,47 @@ namespace DP
                 maxSum = Math.Max(sum, maxSum);
             }
             return maxSum;
+        }
+    }
+
+    public class DPAll 
+    {
+
+        public void Test_MinPathSum()
+        {
+            int[][] grid = new[] { new int[] {1,3,1 }, new int[] {1,5,1 },new[] { 4,2,1} };
+            var res = MinPathSum(grid) == 7;
+        }
+        /// <summary>
+        /// #64. 最小路径和
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        public int MinPathSum(int[][] grid)
+        {
+            for(int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (i == 0 && j == 0)
+                    {
+                        grid[i][j] = grid[i][j];
+                    }
+                    else if (i == 0)
+                    {
+                        grid[i][j] = grid[0][j - 1] + grid[0][j];
+                    }
+                    else if (j == 0)
+                    {
+                        grid[i][j] = grid[i - 1][0] + grid[i][0];
+                    }
+                    else
+                    {
+                        grid[i][j] = Math.Min(grid[i][j - 1] + grid[i][j], grid[i - 1][j] + grid[i][j]);
+                    }
+                }
+            }
+            return grid[grid.Length - 1][grid[0].Length - 1];
         }
     }
 }
