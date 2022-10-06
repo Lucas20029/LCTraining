@@ -12,6 +12,7 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            BackTrack.Instance.Test_PermuteUnique();
             Mathimatics.Instance.Test_Divide();
             Other.Instance.Test_MaxProduct();
             Greedy.Instance.Test_CanCompleteCircuit();
@@ -21,7 +22,7 @@ namespace LCTraining
             var canJumpRes = DP.Instance.CanJump(new[] { 2, 3, 1, 1, 4 });
             var maxSubArrayRes = DP.Instance.MaxSubArray(new[] { 2, 4, -5, 1, 3, -6, 7, -5, -3 });
             var subsetResult = BackTrack.Instance.Subsets(new[] { 1,2,3,4,5});
-            var permuteResult = BackTrack.Instance.Permute(new[] {1,2,3,4,5 });
+            var permuteResult = BackTrack.Instance.Permute(new[] { 1, 2, 3, 4, 5 });
             var parenthesisResult = BackTrack.Instance.GenerateParenthesis(3);
             maxSubArrayRes = DP.Instance.MaxSubArray(new[] { -2, -4, -5, 6, -1 });
             maxSubArrayRes = DP.Instance.MaxSubArray(new[] { -2, -4, -5, -3 });
