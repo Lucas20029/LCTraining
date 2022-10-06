@@ -12,6 +12,7 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Matrix.Instance.Test_SpiralOrder();
             BackTrack.Instance.Test_PermuteUnique();
             Mathimatics.Instance.Test_Divide();
             Other.Instance.Test_MaxProduct();
