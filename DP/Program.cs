@@ -11,6 +11,7 @@ namespace DP
         static void Main(string[] args)
         {
             DPAll da = new DPAll();
+            da.Test_NumDecoding();
             da.Test_MinPathSum();
             Day5 d5 = new Day5();
             int res =d5.MaxSubarraySumCircular(new[] { 5, -3, 5 });
@@ -277,7 +278,7 @@ namespace DP
 
     public class DPAll 
     {
-
+        #region 64 最小路径和
         public void Test_MinPathSum()
         {
             int[][] grid = new[] { new int[] {1,3,1 }, new int[] {1,5,1 },new[] { 4,2,1} };
@@ -314,5 +315,68 @@ namespace DP
             }
             return grid[grid.Length - 1][grid[0].Length - 1];
         }
+        #endregion
+        #region 91 解码方法
+        //注意情况：
+        /*
+         06  返回 0， 没有解法
+         70  不存在这种输入。 程序兼容，如果有，返回0，无解
+         707 返回0， 无解
+             */
+
+        //碰到边界值的情况，先不用考虑通用算法。 直接用代码把特殊情况逻辑写下来，跑完没问题，然后再看看能不能套到一般情况中。
+        public void Test_NumDecoding()
+        {
+            var res0 = NumDecodings("12");
+            var res1 = NumDecodings("70");
+            var res2 = NumDecodings("707");
+        }
+        public int NumDecodings(string s)
+        {
+            if (s.Length == 1)
+                return IsValidCode(s[0]) ? 1 : 0;
+            if (!IsValidCode(s[0]))
+                return 0;
+
+            int s0 = 1;
+            int s1 = 1;
+            int current = 0;
+            for (int i = 1; i < s.Length; i++)
+            {
+                current = 0;
+                if (IsValidCode(s[i - 1], s[i]))
+                    current += s0;
+                if (IsValidCode(s[i]))
+                    current += s1;
+                if (current == 0)
+                    return 0;
+                s0 = s1;
+                s1 = current;
+            }
+            return current;
+        }
+        public bool IsValidCode(char a, char? b = null)
+        {
+            if (b == null)
+            {
+                if (a == '0')
+                    return false;
+                else
+                    return true;
+            }
+            else
+            {
+                if (a == '0')
+                    return false;
+                else if (a == '1')
+                    return true;
+                else if (a == '2' && b <= '6')
+                    return true;
+                else
+                    return false;
+            }
+        }
+        #endregion
+
     }
 }

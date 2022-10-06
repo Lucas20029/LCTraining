@@ -12,6 +12,9 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Mathimatics.Instance.Test_Divide();
+            Other.Instance.Test_MaxProduct();
+            Greedy.Instance.Test_CanCompleteCircuit();
             Other.Instance.ThreeSum_Test();
             Other.Instance.Decrypt_Test();
             ArrStrLink.TestSwapPairs();

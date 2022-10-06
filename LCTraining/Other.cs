@@ -337,5 +337,93 @@ namespace LCTraining
 
         //}
         //#endregion
+
+        #region 152 乘积最大子数组
+        public void Test_MaxProduct()
+        {
+            var res1 = MaxProduct(new[] { 2, 3, -2, 4 });
+            var res2 = MaxProduct(new[] { -2, 0, -1 });
+            var res3 = MaxProduct(new[] { 2, -5, -2, -4, 3 });
+
+        }
+        /*
+         自己理解：
+         1. 数组中出现0， 那么结果集肯定不能跨越0（否则乘积就是0了）。 因此，可以按0拆分为多个 不含0的数组。
+         2. 对于不含0的数组，分两种情况：
+            1. 乘积>0， 那么就是该数组的Max
+            2. 乘积<0， 那么里面肯定有奇数个负数。
+                举例：  6,3,-5,6,2,-1,9,-8，2,3。  要想结果为最大， 必须要舍弃两头的某一个负数。
+                对于本例中，要么舍弃头： 6、3、-5， 要么舍弃尾：-8、2、3。 就是比较剩余哪个大即可。
+        */
+        public int MaxProduct(int[] nums)
+        {
+            var hasZero = false;
+            List<List<int>> numarrs = new List<List<int>>() { new List<int>() };
+            foreach(var num in nums)
+            {
+                if (num == 0)
+                {
+                    numarrs.Add(new List<int>());
+                    hasZero = true;
+                }   
+                else
+                    numarrs.Last().Add(num);
+            }
+            int max =hasZero?0: int.MinValue;
+            foreach(var numarr in numarrs)
+            {
+                max = Math.Max(max, MaxNoneZero(numarr));
+            }
+            return max;
+        }
+        public int MaxNoneZero(List<int> nums)
+        {
+            if (nums.Count == 0)
+                return 0;
+            if (nums.Count == 1)
+                return nums[0];
+            int product = 1;
+            foreach(var num in nums)
+            {
+                product *= num;
+            }
+            if (product > 0)
+                return product;
+            int leftProduct = product, rightProduct = product;
+            foreach(var num in nums)
+            {
+                leftProduct = leftProduct / num;
+                if (num < 0)
+                    break;
+            }
+            for (int i =nums.Count-1; i>=0;i--)
+            {
+                rightProduct = rightProduct / nums[i];
+                if (nums[i] < 0)
+                    break;
+            }
+            return Math.Max(leftProduct, rightProduct);
+        }
+
+        //官方题解，没看懂
+        public int Standard_MaxProduct(int [] nums)
+        {
+            int max = int.MinValue, imax = 1, imin = 1;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < 0)
+                {
+                    int temp = imin;
+                    imin = imax;
+                    imax = temp;
+                }
+                imax = Math.Max(imax * nums[i], nums[i]);
+                imin = Math.Min(imin * nums[i], nums[i]);
+
+                max = Math.Max(imax, max);
+            }
+            return max;
+        }
+        #endregion
     }
 }

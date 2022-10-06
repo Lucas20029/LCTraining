@@ -226,6 +226,65 @@ namespace ConsoleApp1.MathAlgorithm
             return left;
         }
         #endregion
+
+        #region 29 两数相除
+        /*
+        思路：使用除数累加，跟被除数比较。 例如： 13/4
+        1. 4<31
+        2. 4+4=8<31
+        3. 8+8=16<31
+        4. 16+16=32>31  超了！
+        然后从16开始，从第一步递归
+        5. 16+4=20
+        6. 16+4+4=16+8=24<31
+        7. 16+8+8=16+16=32<31  超了！
+        递归
+        8. 24+4....
+        注意整数边界问题
+        */
+        public void Test_Divide()
+        {
+            var res0 = Divide(7, -3);
+            var res1 = Divide(47, 3);
+            var res2 = Divide(-8, 5);
+            var res3 = Divide(-101, -3);
+            var res4 = Divide(-2147483648, -1);
+        }
+        public int Divide(int dividend, int divisor)
+        {
+
+            if (dividend == 0)
+                return 0;
+            if (divisor == 1)
+                return dividend;
+            if (divisor == -1)
+            {
+                if (dividend > int.MinValue) return dividend * -1;
+                else return int.MaxValue;
+            }
+
+            bool neg = (dividend < 0) ^ (divisor < 0);
+            long dividend1 = Math.Abs((long)dividend);
+            long divisor1 = Math.Abs((long)divisor);
+            return JumpForDivide(dividend1, divisor1, 0, 0) * (neg ? -1 : 1);
+        }
+        public int JumpForDivide(long target, long step, long baseVal, long baseStep)
+        {
+            if (target < step + baseVal)
+                return (int)baseStep;
+            int times = 1;
+            long sum = step;
+            while (sum + sum + baseVal <= target)
+            {
+                sum += sum;
+                times += times;
+            }
+            if (times == 1 || sum == target)
+                return (int)(times + baseStep);
+            else
+                return JumpForDivide(target, step, sum + baseVal, baseStep + times);
+        }
+        #endregion
         #endregion
     }
 }
