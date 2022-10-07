@@ -11,7 +11,7 @@ namespace DataStructure
         static void Main(string[] args)
         {
             Day5 d5 = new Day5();
-            d5.TestAddString();
+            //d5.TestAddString();
 
             var s= d5.Convert("PAYPALISHIRING", 3);
 
