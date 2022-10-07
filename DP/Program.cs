@@ -11,6 +11,7 @@ namespace DP
         static void Main(string[] args)
         {
             DPAll da = new DPAll();
+            da.Test_UniquePaths();
             da.Test_NumDecoding();
             da.Test_MinPathSum();
             Day5 d5 = new Day5();
@@ -278,6 +279,42 @@ namespace DP
 
     public class DPAll 
     {
+        #region 62 不同路径
+        /*
+        方法1： 动态规划：
+        到任意点的路径总数，都等于到它左边点的路径数+到它上边点的路径数。
+        因为到它上边点、左边点的路径肯定都不同，不会有重叠； 并且从这两个点出发，有且仅有唯一的路径到指定点。因此俩点的路径数直接加一起就可以
+
+        方法2：
+        到右下角，例如 3*2， 必须且只能 是  右移1次+下移2次。
+        即对于m*n的矩阵，到右下角，只能是 右移n-1 + 下移 m-1 次。 因此，这是个排列组合问题。
+        */
+        public void Test_UniquePaths()
+        {
+            var res1 = UniquePaths(3, 7) == 28;
+            var res2 = UniquePaths(3, 2) == 3;
+            var res3 = UniquePaths(3, 3) == 6;
+            var res4 = UniquePaths(7, 3) == 28;
+        }
+        public int UniquePaths(int m, int n)
+        {
+            int[,] temp = new int[m, n];
+            for(int i = 0; i < m; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    if (i == 0 || j == 0)
+                        temp[i, j] = 1;
+                    else
+                    {
+                        temp[i, j] = temp[i - 1,j] + temp[i,j - 1];
+                    }
+                }
+            }
+            return temp[m - 1, n - 1];
+        }
+        #endregion
+
         #region 64 最小路径和
         public void Test_MinPathSum()
         {
