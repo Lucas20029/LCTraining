@@ -12,6 +12,9 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            BackTrack.Instance.Test_CombinationSum();
+            Mathimatics.Instance.Test_AddBinary();
+            ArrStrLink.Instance.Test_IsIsomorphic();
             Other.Instance.Test_IsPalindrome();
             Other.Instance.Decrypt_Test();
             ArrStrLink.TestSwapPairs();

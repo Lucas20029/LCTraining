@@ -251,6 +251,10 @@ namespace LCTraining
         #endregion
 
         #region 9 回文数
+        /*
+        思路1： 类似双指针，首尾位比较
+        思路2： 把整个数字逆序，逆序数==本身。 例如 1001 逆序后还是1001， 1001=1001
+         */
         public void Test_IsPalindrome()
         {
             var res0 = IsPalindrome(13231) == true;

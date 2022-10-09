@@ -7,7 +7,7 @@ namespace LCTraining
 {
     class ArrStrLink
     {
-
+        public static ArrStrLink Instance = new ArrStrLink();
 
 
         #region 数组 -- 简单
@@ -574,6 +574,56 @@ namespace LCTraining
         }
         #endregion
 
+        #region 205 同构字符串
+        public void Test_IsIsomorphic()
+        {
+            var res0 = IsIsomorphic("paper", "title") == true;
+            var res1 = IsIsomorphic("egg", "add") == true;
+            var res2 = IsIsomorphic("paper", "titlt") == false;
+            var res3 = IsIsomorphic("paper", "tiple") == false;
+        }
+        public bool IsIsomorphic(string s, string t)
+        {
+            if (string.IsNullOrEmpty(s) && string.IsNullOrEmpty(t))
+                return true;
+            if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(t))
+                return false;
+            if (s.Length != t.Length)
+                return false;
+            Dictionary<char, char> dic = new Dictionary<char, char>();
+            Dictionary<char, char> dicReverse = new Dictionary<char, char>();
+            for(int i = 0; i < s.Length; i++)
+            {
+                var sc = s[i];
+                var tc = t[i];
+                if (dicReverse.ContainsKey(tc))
+                {
+                    if (dicReverse[tc] != sc)
+                        return false;
+                }
+                else
+                {
+                    dicReverse[tc] = sc;
+                }
+                if (dic.ContainsKey(sc))
+                {
+                    if (dic[sc] != tc)
+                        return false;
+                }
+                else
+                {
+                    dic[sc] = tc;
+                }
+            }
+            return true;
+        }
+        #endregion
+        #region  58 最后一个单词的长度
+        public int LengthOfLastWord(string s)
+        {
+            return s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault()?.Length ?? 0;
+        }
+        #endregion
         #endregion
 
         #region 数组--中级
