@@ -250,6 +250,182 @@ namespace LCTraining
         }
         #endregion
 
+
+        #region 15 三数之和 --双指针
+        //思路：排序， 然后逐个遍历， 把3数之和降为2数之和。  2数之和，使用首尾双指针解决
+        //难点：在于如何去除重复解。
+        /*
+        特判，对于数组长度 nn，如果数组为 nullnull 或者数组长度小于 33，返回 [][]。
+        对数组进行排序。
+        遍历排序后数组：
+        若 nums[i]>0nums[i]>0：因为已经排序好，所以后面不可能有三个数加和等于 00，直接返回结果。
+        对于重复元素：跳过，避免出现重复解
+        令左指针 L=i+1L=i+1，右指针 R=n-1R=n−1，当 L<RL<R 时，执行循环：
+        当 nums[i]+nums[L]+nums[R]==0nums[i]+nums[L]+nums[R]==0，执行循环，判断左界和右界是否和下一位置重复，去除重复解。并同时将 L,RL,R 移到下一位置，寻找新的解
+        若和大于 00，说明 nums[R]nums[R] 太大，RR 左移
+        若和小于 00，说明 nums[L]nums[L] 太小，LL 右移
+
+        
+        链接：https://leetcode.cn/problems/3sum/solution/pai-xu-shuang-zhi-zhen-zhu-xing-jie-shi-python3-by/
+             
+        */
+        public void ThreeSum_Test()
+        {
+            int[] nums = new int[] { -5,-3,-3,-1,1,2,4 };
+            nums = new int[] { 0,0,0};
+            var res = ThreeSum(nums);
+        }
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            List<IList<int>> result = new List<IList<int>>();
+            if (nums == null || nums.Length < 3)
+                return result;
+
+            nums = nums.OrderBy(p => p).ToArray();
+            int lastVal = int.MaxValue;
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if (lastVal != int.MaxValue && lastVal == nums[i])
+                {
+                    lastVal = nums[i];
+                    continue;
+                }
+                var res = TwoSum(nums, -nums[i], i);
+                result.AddRange(res);
+                lastVal = nums[i];
+            }
+            return result;
+        }
+        public IList<IList<int>> TwoSum(int [] nums, int target, int skipIndex)
+        {
+            List<IList<int>> result = new List<IList<int>>();
+            int left = skipIndex+1, right = nums.Length-1;
+            while (left < right)
+            {
+                if(left==skipIndex)
+                {
+                    left++;
+                    continue;
+                }
+                if (right == skipIndex)
+                {
+                    right--;
+                    continue;
+                }
+                var sum = nums[left] + nums[right];
+                if (sum < target)
+                    left++;
+                else if (sum > target)
+                    right--;
+                else //==
+                {
+                    result.Add(new List<int> { -target, nums[left], nums[right] });
+                    int leftVal = nums[left], rightVal = nums[right];
+                    while (left<nums.Length && nums[left] == leftVal)
+                        left++;
+                    while (right>=0 && nums[right] == rightVal)
+                        right--;
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        //#region 9 回文数
+        //public bool IsPalindrome(int x)
+        //{
+
+        //}
+        //#endregion
+
+        #region 152 乘积最大子数组
+        public void Test_MaxProduct()
+        {
+            var res1 = MaxProduct(new[] { 2, 3, -2, 4 });
+            var res2 = MaxProduct(new[] { -2, 0, -1 });
+            var res3 = MaxProduct(new[] { 2, -5, -2, -4, 3 });
+
+        }
+        /*
+         自己理解：
+         1. 数组中出现0， 那么结果集肯定不能跨越0（否则乘积就是0了）。 因此，可以按0拆分为多个 不含0的数组。
+         2. 对于不含0的数组，分两种情况：
+            1. 乘积>0， 那么就是该数组的Max
+            2. 乘积<0， 那么里面肯定有奇数个负数。
+                举例：  6,3,-5,6,2,-1,9,-8，2,3。  要想结果为最大， 必须要舍弃两头的某一个负数。
+                对于本例中，要么舍弃头： 6、3、-5， 要么舍弃尾：-8、2、3。 就是比较剩余哪个大即可。
+        */
+        public int MaxProduct(int[] nums)
+        {
+            var hasZero = false;
+            List<List<int>> numarrs = new List<List<int>>() { new List<int>() };
+            foreach(var num in nums)
+            {
+                if (num == 0)
+                {
+                    numarrs.Add(new List<int>());
+                    hasZero = true;
+                }   
+                else
+                    numarrs.Last().Add(num);
+            }
+            int max =hasZero?0: int.MinValue;
+            foreach(var numarr in numarrs)
+            {
+                max = Math.Max(max, MaxNoneZero(numarr));
+            }
+            return max;
+        }
+        public int MaxNoneZero(List<int> nums)
+        {
+            if (nums.Count == 0)
+                return 0;
+            if (nums.Count == 1)
+                return nums[0];
+            int product = 1;
+            foreach(var num in nums)
+            {
+                product *= num;
+            }
+            if (product > 0)
+                return product;
+            int leftProduct = product, rightProduct = product;
+            foreach(var num in nums)
+            {
+                leftProduct = leftProduct / num;
+                if (num < 0)
+                    break;
+            }
+            for (int i =nums.Count-1; i>=0;i--)
+            {
+                rightProduct = rightProduct / nums[i];
+                if (nums[i] < 0)
+                    break;
+            }
+            return Math.Max(leftProduct, rightProduct);
+        }
+
+        //官方题解，没看懂
+        public int Standard_MaxProduct(int [] nums)
+        {
+            int max = int.MinValue, imax = 1, imin = 1;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < 0)
+                {
+                    int temp = imin;
+                    imin = imax;
+                    imax = temp;
+                }
+                imax = Math.Max(imax * nums[i], nums[i]);
+                imin = Math.Min(imin * nums[i], nums[i]);
+
+                max = Math.Max(imax, max);
+            }
+            return max;
+        }
+        #endregion
+
         #region 9 回文数
         /*
         思路1： 类似双指针，首尾位比较

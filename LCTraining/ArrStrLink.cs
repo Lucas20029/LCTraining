@@ -1176,6 +1176,19 @@ namespace LCTraining
                 this.val = val;
                 this.next = next;
             }
+            public static ListNode FromArray(int[] arr)
+            {
+                if (arr == null || arr.Length == 0)
+                    return null;
+                ListNode head = new ListNode { val = arr[0] };
+                var cur = head;
+                for(int i =1;i<arr.Length;i++)
+                {
+                    cur.next = new ListNode(arr[i], null);
+                    cur = cur.next;
+                }
+                return head;
+            }
         }
         #endregion
         #region 相交链表
@@ -1215,6 +1228,65 @@ namespace LCTraining
                 length++;
             }
             return length;
+        }
+        #endregion
+
+        #region 143 重排链表
+        /*
+        思路1：最简单的，把节点指针存到栈上。然后出栈，重新构建链表。 但空间消耗o(n)
+        思路2：1,2,3,4,5 --> 1,5,2,4,3 
+        就是找到中点，把中点往后的链表逆序。 然后重排链表
+        */
+        public void Test_ReorderList()
+        {
+            var arr1 = ListNode.FromArray(new[] { 1, 2, 3, 4, 5 });
+            var arr2 = ListNode.FromArray(new[] { 1, 2, 3, 4, 5, 6 });
+            this.ReorderList(arr1);
+            this.ReorderList(arr2);
+        }
+        public void ReorderList(ListNode head)
+        {
+            ListNode cur = head;
+            int length = 0;
+            while(cur!=null)
+            {
+                length++;
+                cur = cur.next;
+            }
+            int midAfterIndex = (int)(length / 2);
+            ListNode mid = head;
+            for (int i = 0; i < midAfterIndex; i++)
+            {
+                mid = mid.next;
+            }
+            //从mid开始翻转
+
+            var tail = ReverseList_RecorderList(mid);
+
+            ListNode left = head, right=tail;
+
+            while (left!=null&& right!=null)
+            {
+                ListNode tempL=left.next, tempR=right.next;
+                left.next = right;
+                right.next = tempR==null?null: tempL;
+                left = tempL;
+                right = tempR;
+            }
+        }
+        public ListNode ReverseList_RecorderList(ListNode head)
+        {
+            ListNode prev = null, cur = null, next = null;
+            cur = head;
+            next = cur.next;
+            while (cur!=null)
+            {
+                cur.next = prev;
+                prev = cur;
+                cur = next;
+                next = next?.next;
+            }
+            return prev;
         }
         #endregion
         #endregion

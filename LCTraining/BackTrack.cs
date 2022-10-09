@@ -11,7 +11,7 @@ namespace LCTraining
         public static BackTrack Instance = new BackTrack();
 
 
-        #region 括号生成
+        #region 22. 括号生成
         //思路：逐个字符地向Str中追加。人脑模拟一次：
         /*
          * ( 
@@ -56,7 +56,7 @@ namespace LCTraining
         }
         #endregion
 
-        #region 全排列
+        #region 46. 全排列
         //思路：逐个向结果中添加 数字。 每一步遍历所有可能
         List<IList<int>> permuteResult = new List<IList<int>>();
         public IList<IList<int>> Permute(int[] nums)
@@ -78,7 +78,55 @@ namespace LCTraining
 
         #endregion
 
-        #region 子集
+        #region 47. 全排列II
+        /*
+        回忆全排列（入参不含重复元素） 题， 例如入参 1,2,3， 那么过程是：
+          1          2          3
+         /  \       / \        / \
+        12  13     21 23      31 32
+        |    |     |   |      |  |
+        123 132   213 231    321 321
+
+        那么本题，对于 1,1,3 这种包含重复元素的问题，只需要在 【剩余元素分叉的地方去重即可】，举例分析，可以发现：
+           2
+          / \
+         1   1  <- 去重，相当于剪掉重复树枝， 只保留一个分支即可。
+         |   |
+         1   1
+        */
+        public void Test_PermuteUnique()
+        {
+            var result1 = PermuteUnique(new[] { 1, 1, 3 });
+            permuteUniqueResult.Clear();
+            var result2 = PermuteUnique(new[] { 1, 1,1,3, 3 });
+        }
+        List<IList<int>> permuteUniqueResult = new List<IList<int>>();
+        public IList<IList<int>> PermuteUnique(int[] nums)
+        {
+            PermuteUniqueSub(nums, new List<int>());
+            return permuteUniqueResult;
+        }
+        public void PermuteUniqueSub(int [] nums, List<int> lastCreated) 
+        {
+            var leftNums = nums.ToList();  
+            foreach (var lastNUm in lastCreated)  //注意： Except() 会把重复的所有元素都去掉。  Except([1,1,2],1) 返回 [2]， 而不是[1,2]。 而我们期望[1,2]，因此不能用Except
+                leftNums.Remove(lastNUm);
+
+            if (!leftNums.Any())
+                permuteUniqueResult.Add(lastCreated);
+            foreach(var num in leftNums.Distinct().ToList()) //在这里去重即可
+            {
+                var newCreated = lastCreated.ToList(); //注意，Union重复元素，原集合不变。 [1,2].Union(1) 返回 [1,2]，而不是[1,2,1]。 而我们期望是[1,2,1]，因此不能用Union。
+                newCreated.Add(num);
+                PermuteUniqueSub(nums, newCreated);
+            }
+        }
+
+
+
+        #endregion
+
+        #region 78. 子集
         public IList<IList<int>> Subsets(int[] nums)
         {
             List<IList<int>> result = new List<IList<int>>();
@@ -106,9 +154,13 @@ namespace LCTraining
         //}
         #endregion
 
+        #region 17 电话号码
+        /* 题目：
+         给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回
 
-        #region
-
+         输入：digits = "23"
+         输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
+         */
         public IList<string> LetterCombinations(string digits)
         {
             if (string.IsNullOrEmpty(digits))

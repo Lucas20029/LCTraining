@@ -10,6 +10,7 @@ namespace ArrayNString
     {
         static void Main(string[] args)
         {
+            ArrayIntroduction.Instance.Tests_Insert();
             var row=  Summary.Instance.GetRow(3);
             var testMatrix = Matrix.Instance.BuildMatrix();
             var findDiagonalOrder = Matrix.Instance.FindDiagonalOrder(testMatrix);
@@ -69,6 +70,64 @@ namespace ArrayNString
                 mid = left + (right - left) / 2;
             }
             return mid;
+        }
+        #endregion
+
+        #region 57 插入区间
+        /*
+        判断newInterval的两个点应该插入到 intervals 的哪个元素中， 或者是哪两个元素之间。
+        前置特殊值处理掉。
+        寻找时，中间的index用0.5表示，方便比较。
+        */
+        public void Tests_Insert()
+        {
+            var result0 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 7 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 6, 15 });
+            var result1 = Insert(new[] { new[] { 2, 3 }, new[] { 5, 7 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 0, 1 });
+            var result2 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 7 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 20, 21 });
+
+            var result3 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 7 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 3, 9 });
+
+            var result4 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 7 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 0, 1 });
+            var result5 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 7 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 17, 29 });
+
+            var result6 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 8 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 6,7 });
+            var result7 = Insert(new[] { new[] { 1, 3 }, new[] { 5, 8 }, new[] { 9, 11 }, new[] { 13, 17 } }, new[] { 5,8 });
+        }
+
+        public int[][] Insert(int[][] intervals, int[] newInterval)
+        {
+            if (intervals.Length == 0)
+                return new[] { newInterval };
+            if (newInterval[1] < intervals[0][0])
+                return new[] { newInterval }.Union(intervals).ToArray();
+            if (newInterval[0] > intervals.Last()[1])
+                return intervals.Union(new[] { newInterval }).ToArray();
+
+            float index1 = -1, index2=-1;
+            var intervalList = intervals.ToList();
+            intervalList.Insert(0,new[] { int.MinValue, int.MinValue });
+            intervalList.Add(new[] { int.MaxValue, int.MaxValue });
+            for (int i = 0; i < intervalList.Count; i++)
+            {
+                if (newInterval[0] >= intervalList[i][0] && newInterval[0] <= intervalList[i][1])
+                    index1 = i;
+                if (newInterval[0] > intervalList[i][1] && newInterval[0] <= intervalList[i + 1][0])
+                    index1 = i + 0.5f;
+                if (newInterval[1] >= intervalList[i][0] && newInterval[1] <= intervalList[i][1])
+                    index2 = i;
+                if (newInterval[1] > intervalList[i][1] && newInterval[1] <= intervalList[i + 1][0])
+                    index2 = i + 0.5f;
+            }
+
+            var merged1 = Math.Min(intervalList[(int)Math.Ceiling(index1)][0], newInterval[0]);
+            var merged2 = Math.Max(intervalList[(int)index2][1], newInterval[1]);
+            intervalList.RemoveRange((int)Math.Ceiling(index1), (int)index2 - (int)Math.Ceiling(index1)+1);
+            intervalList.Insert((int)Math.Ceiling(index1), new[] { merged1, merged2 });
+
+            intervalList.RemoveAt(0);
+            intervalList.RemoveAt(intervalList.Count - 1);
+
+            return intervalList.ToArray();
         }
         #endregion
     }
