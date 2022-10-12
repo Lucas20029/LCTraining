@@ -12,6 +12,8 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            ArrStrLink.Instance.Test_DeleteDuplicates();
+            ArrStrLink.Instance.Test_RotateRight();
             ArrStrLink.Instance.Test_ReorderList();
             Matrix.Instance.Test_SpiralOrder();
             BackTrack.Instance.Test_PermuteUnique();
