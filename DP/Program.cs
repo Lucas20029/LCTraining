@@ -11,6 +11,7 @@ namespace DP
         static void Main(string[] args)
         {
             DPAll da = new DPAll();
+            da.Test_UniquePathsWithObstacles();
             da.Test_UniquePaths();
             da.Test_NumDecoding();
             da.Test_MinPathSum();
@@ -313,6 +314,49 @@ namespace DP
             }
             return temp[m - 1, n - 1];
         }
+        #endregion
+        #region 63 不同路径II
+        /*相比 Q62， 障碍点是不能走的。 因此，路径数=0
+         */
+        public void Test_UniquePathsWithObstacles()
+        {
+            int[][] grid = new[] { new[] { 0, 1 }};
+            var res = UniquePathsWithObstacles(grid);
+            int[][] grid1 = new[] { new[] { 0, 0, 0 }, new[] { 0, 1, 0 }, new[] { 0, 0, 0 } };
+            var res1 = UniquePathsWithObstacles(grid1);
+            int[][] grid2 = new[] { new[] { 0, 0, 0, 0 }, new[] { 0, 1, 0, 0 }, new[] { 0, 0, 0, 0 }, new[] { 0, 0, 0, 0 } };
+            var res2 = UniquePathsWithObstacles(grid2);
+            int[][] grid3 = new[] { new[] { 0, 0, 0, 0 }, new[] { 0, 1, 0, 0 }, new[] { 0, 0, 0, 0 }, new[] { 0, 0, 0, 0 }, new[] { 0, 0, 0, 0 }};
+            var res3 = UniquePathsWithObstacles(grid3);
+        }
+        public int UniquePathsWithObstacles(int[][] obstacleGrid)
+        {
+            if (obstacleGrid.Length == 0 || obstacleGrid[0].Length==0 || obstacleGrid[0][0]==1)
+                return 0;
+            int h = obstacleGrid.Length;
+            int w = obstacleGrid[0].Length;
+            int[,] matrix = new int[h, w]; 
+            matrix[0, 0] = 1;
+            for(int i = 0; i < h; i++)
+            {
+                for(int j = 0; j < w; j++)
+                {
+                    if(i==0&&j==0)
+                    {
+                        matrix[i, j] = 1;continue;
+                    }
+                    if(obstacleGrid[i][j]==1)
+                    {
+                        matrix[i, j] = 0;continue;
+                    }
+                    int up = i == 0  ? 0 : matrix[i - 1, j];
+                    int left = j == 0  ? 0 : matrix[i, j - 1];
+                    matrix[i, j] = up + left;
+                }
+            }
+            return matrix[h - 1, w - 1];
+        }
+
         #endregion
 
         #region 64 最小路径和

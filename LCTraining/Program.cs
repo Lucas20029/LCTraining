@@ -12,6 +12,7 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            BinaryTree.Instance.Test_IsSameTree();
             ArrStrLink.Instance.Test_DeleteDuplicates();
             ArrStrLink.Instance.Test_RotateRight();
             ArrStrLink.Instance.Test_ReorderList();
