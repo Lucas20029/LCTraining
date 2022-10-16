@@ -210,6 +210,58 @@ namespace LCTraining
 
         #endregion
 
+        #region 39 组合总和
+        /*
+        以 [2,3,5], target=7为例：
+                []
+               2       3         5
+           22 23 25 32 33 35  52 53 55 
+        就是以树的形式遍历所有可能。 
+        
+        剪枝策略：
+        1. 计算和如果超过 target，  则不再遍历其子节点
+        难点：如何去重？
+        在纸上画一下，然后注意观察。 
 
+        规律就是：**从每一层的第 2 个结点开始，都不能再搜索产生同一层结点已经使用过的 candidate 里的元素。**
+         */
+        public void Test_CombinationSum()
+        {
+            var res1 = CombinationSum(new[] { 2, 3, 5, 6 }, 7);
+            var res2 = CombinationSum(new[] { 2, 3, 5, 6 }, 5);
+            var res3 = CombinationSum(new[] { 2, 3, 5, 6 }, 1);
+            var res4 = CombinationSum(new[] { 2, 3, 5 }, 8);
+            var res5 = CombinationSum(new[] { 2 }, 1);
+        }
+        public IList<IList<int>> CombinationSum(int[] candidates, int target)
+        {
+            CombinationSub(candidates, new List<int>(), target);
+            return result_CombinationSum;
+        }
+        List<IList<int>> result_CombinationSum = new List<IList<int>>();
+        public void CombinationSub(int[] candidates, List<int> combination, int target)
+        {
+            int sum = combination.Any() ? combination.Sum() : 0;
+            List<int> searchedNums = new List<int>();
+            foreach (var candidate in candidates)
+            {
+                if (sum + candidate == target)
+                {
+                    var finalCombination = combination.ToList();
+                    finalCombination.Add(candidate);
+                    result_CombinationSum.Add(finalCombination);
+                }
+                else if (sum + candidate < target)
+                {
+                    var newCandidates = candidates.Except(searchedNums).ToArray();
+                    var newCombination = combination.ToList();
+                    newCombination.Add(candidate);
+                    CombinationSub(newCandidates, newCombination, target);
+                }
+                searchedNums.Add(candidate);
+            }
+        }
+
+        #endregion
     }
 }

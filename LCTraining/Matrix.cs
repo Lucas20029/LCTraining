@@ -195,6 +195,13 @@ namespace LCTraining.Design
 
 
         #endregion
+
+        #region 59螺旋矩阵II
+        public int[][] GenerateMatrix(int n)
+        {
+            return null;
+        }
+        #endregion
     }
 
 

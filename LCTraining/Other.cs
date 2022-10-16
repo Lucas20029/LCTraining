@@ -425,5 +425,54 @@ namespace LCTraining
             return max;
         }
         #endregion
+
+        #region 9 回文数
+        /*
+        思路1： 类似双指针，首尾位比较
+        思路2： 把整个数字逆序，逆序数==本身。 例如 1001 逆序后还是1001， 1001=1001
+         */
+        public void Test_IsPalindrome()
+        {
+            var res0 = IsPalindrome(13231) == true;
+            var res1 = IsPalindrome(1000021) == false;
+            var res2 = IsPalindrome(13255231) == true;
+            var res3 = IsPalindrome(13221) == false;
+            var res4 = IsPalindrome(9) == true;
+            var res5 = IsPalindrome(10) == false;
+        }
+        public bool IsPalindrome(int x)
+        {
+            // 23132
+            // 23132 % 10 = 2,  23132/10000=2，  23132%10000=3132, 3132/10=313
+            // 313 % 10 =3  313/100=3    313%100=13， 13/10=1
+
+            // 77 %10 =7, 77/10=7   77%10=7, 7/10=0
+            if (x < 0)
+                return false;
+            if (x < 10)
+                return true;
+
+            var num = x;
+            int maxDividor = 1;
+            while (num >= 10)
+            {
+                num = num / 10;
+                maxDividor *= 10;
+            }
+            num = x;
+            while (num>0)
+            {
+                var right = num % 10;
+                var left = num / maxDividor;
+                if (right != left)
+                    return false;
+
+                num = num % maxDividor;
+                num = num / 10;
+                maxDividor = maxDividor / 100;
+            }
+            return true;
+        }
+        #endregion
     }
 }

@@ -128,6 +128,39 @@ namespace ConsoleApp1.MathAlgorithm
         }
         #endregion
 
+        #region 67 二进制求和
+        public void Test_AddBinary()
+        {
+            var res1 =AddBinary("10010", "11011") == "101101";
+            var res2 = AddBinary("110110111", "10111") == "111001110";
+        }
+        public string AddBinary(string a, string b)
+        {
+            var min = Math.Min(a.Length, b.Length);
+            var max = Math.Max(a.Length, b.Length);
+            if (max > min)
+            {
+                string s = new string('0', max - min);
+                if (min == a.Length)
+                    a = s + a;
+                else
+                    b = s + b;
+            }
+            
+            StringBuilder stringBuilder = new StringBuilder();
+            bool isProceed = false;
+            for(int i = a.Length-1; i >= 0; i--)
+            {
+                var res = a[i] - '0' + b[i] - '0' + (isProceed ? 1 : 0);
+                isProceed = res >= 2;
+                stringBuilder.Insert(0, isProceed ? res - 2  : res);
+            }
+            if (isProceed)
+                stringBuilder.Insert(0, 1);
+
+            return stringBuilder.ToString();
+        }
+        #endregion
         #endregion
 
         #region 数学中级

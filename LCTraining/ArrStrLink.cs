@@ -10,7 +10,6 @@ namespace LCTraining
         public static ArrStrLink Instance = new ArrStrLink();
 
 
-
         #region 数组 -- 简单
 
         #region 原地删除排序数组中的重复项
@@ -575,6 +574,56 @@ namespace LCTraining
         }
         #endregion
 
+        #region 205 同构字符串
+        public void Test_IsIsomorphic()
+        {
+            var res0 = IsIsomorphic("paper", "title") == true;
+            var res1 = IsIsomorphic("egg", "add") == true;
+            var res2 = IsIsomorphic("paper", "titlt") == false;
+            var res3 = IsIsomorphic("paper", "tiple") == false;
+        }
+        public bool IsIsomorphic(string s, string t)
+        {
+            if (string.IsNullOrEmpty(s) && string.IsNullOrEmpty(t))
+                return true;
+            if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(t))
+                return false;
+            if (s.Length != t.Length)
+                return false;
+            Dictionary<char, char> dic = new Dictionary<char, char>();
+            Dictionary<char, char> dicReverse = new Dictionary<char, char>();
+            for(int i = 0; i < s.Length; i++)
+            {
+                var sc = s[i];
+                var tc = t[i];
+                if (dicReverse.ContainsKey(tc))
+                {
+                    if (dicReverse[tc] != sc)
+                        return false;
+                }
+                else
+                {
+                    dicReverse[tc] = sc;
+                }
+                if (dic.ContainsKey(sc))
+                {
+                    if (dic[sc] != tc)
+                        return false;
+                }
+                else
+                {
+                    dic[sc] = tc;
+                }
+            }
+            return true;
+        }
+        #endregion
+        #region  58 最后一个单词的长度
+        public int LengthOfLastWord(string s)
+        {
+            return s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault()?.Length ?? 0;
+        }
+        #endregion
         #endregion
 
         #region 字符串 -- 中级
@@ -1120,6 +1169,41 @@ namespace LCTraining
             return false;
         }
         #endregion
+
+        #region 83 删除排序链表中的重复元素
+        /*
+         准备2个指针，一个指向重复元素的头一个节点， 另一个向后移动，直到val不同。 然后让第一个的next指向另一个。
+         */
+        public void Test_DeleteDuplicates()
+        {
+            ListNode head = new ListNode() { val = 1, next = new ListNode() { val = 1, next = new ListNode { val = 2, next = new ListNode { val = 2, next = new ListNode { val = 3, next = new ListNode { val = 6 } } } } } };
+            var res1 =DeleteDuplicates(head);
+        }
+        public ListNode DeleteDuplicates(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+            ListNode first = null, cur = null;
+            first = cur = head;
+            int curVal = head.val;
+            while (cur!=null)
+            {
+                if(cur.val==curVal)
+                {
+                    cur = cur.next;
+                }
+                else
+                {
+                    curVal = cur.val;
+                    first.next = cur;
+                    first = cur;
+                    cur = cur.next;
+                }
+            }
+            first.next = null;
+            return head;
+        }
+        #endregion
         #endregion
 
         #region 链表--中级
@@ -1359,6 +1443,60 @@ namespace LCTraining
                 point = point?.next;
             }
             return newHead;
+        }
+        #endregion
+
+        #region 61 旋转链表
+        public void Test_RotateRight()
+        {
+            var head = new ListNode { val = 0, next = new ListNode { val = 1, next = new ListNode { val = 2, next = new ListNode { val = 3, next = new ListNode { val = 4, next = null } } } } };
+            var res0 = RotateRight(head, 3);
+            var res1 = RotateRight(head, 5);
+            var res2 = RotateRight(head, 1);
+            var res3 = RotateRight(head, 6);
+        }
+        public ListNode RotateRight(ListNode head, int k)
+        {
+            if (head == null)
+                return null;
+            if (head.next == null)
+                return head;
+
+            int length = RotatelinkGetLength(head);
+            int index = k % length;
+            if (index == 0)
+                return head;
+
+            ListNode cur = head, prev = null;
+            for(int i = 0; i <  length- index; i++)
+            {
+                prev = cur;
+                cur = cur.next;
+            }
+            return RotateLinkSub(head, prev, cur);
+        }
+        private int RotatelinkGetLength(ListNode head)
+        {
+            int length = 1;
+            ListNode ptr1 = head;
+            while (ptr1.next != null)
+            {
+                ptr1 = ptr1.next;
+                length++;
+            }
+            return length;
+        }
+        private ListNode RotateLinkSub(ListNode head, ListNode prev, ListNode cur)
+        {
+            ListNode ptr1=head, tail = null;
+            while (ptr1.next != null)
+                ptr1 = ptr1.next;
+            tail = ptr1;
+
+            tail.next = head;
+            prev.next = null;
+            head = cur;
+            return head;
         }
         #endregion
 

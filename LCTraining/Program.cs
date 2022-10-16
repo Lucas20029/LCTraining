@@ -16,6 +16,9 @@ namespace LCTraining
             ArrStrLink.Instance.Test_RemoveDuplicatesII();
             ArrStrLink.Instance.Test_SimplifyPath();
             Matrix.Instance.Test_GenerateMatrix();
+            BinaryTree.Instance.Test_IsSameTree();
+            ArrStrLink.Instance.Test_DeleteDuplicates();
+            ArrStrLink.Instance.Test_RotateRight();
             ArrStrLink.Instance.Test_ReorderList();
             Matrix.Instance.Test_SpiralOrder();
             BackTrack.Instance.Test_PermuteUnique();
@@ -23,6 +26,10 @@ namespace LCTraining
             Other.Instance.Test_MaxProduct();
             Greedy.Instance.Test_CanCompleteCircuit();
             Other.Instance.ThreeSum_Test();
+            BackTrack.Instance.Test_CombinationSum();
+            Mathimatics.Instance.Test_AddBinary();
+            ArrStrLink.Instance.Test_IsIsomorphic();
+            Other.Instance.Test_IsPalindrome();
             Other.Instance.Decrypt_Test();
             ArrStrLink.TestSwapPairs();
             var canJumpRes = DP.Instance.CanJump(new[] { 2, 3, 1, 1, 4 });

@@ -209,6 +209,35 @@ namespace ConsoleApp1
             return node;
         }
         #endregion
+
+        #region 100 相同的树
+        public void Test_IsSameTree()
+        {
+            var p = new TreeNode { val = 1, left = new TreeNode { val = 2 }, right = new TreeNode { val = 3 } };
+            var q = new TreeNode { val = 1, left = new TreeNode { val = 2 }, right = new TreeNode { val = 3 } };
+            var res = IsSameTree(p, q);
+
+            var p1 = new TreeNode { val = 1,  right = new TreeNode { val = 3 } };
+            var q1 = new TreeNode { val = 1, left = new TreeNode { val = 3 } };
+            var res1 = IsSameTree(p1, q1);
+        }
+        public bool IsSameTree(TreeNode p, TreeNode q)
+        {
+            return IsSameTree_Sub(p, q);
+        }
+        private bool IsSameTree_Sub(TreeNode pnode, TreeNode qnode)
+        {
+            if (pnode == null && qnode == null)
+                return true;
+            if (pnode?.val != qnode?.val)
+                return false;
+            if (!IsSameTree_Sub(pnode.left, qnode.left))
+                return false;
+            if (!IsSameTree_Sub(pnode.right, qnode.right))
+                return false;
+            return true;
+        }
+        #endregion
         #endregion
 
         #region 二叉树 -- 中级
