@@ -12,6 +12,10 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Matrix.Instance.Test_SearchMatrix();
+            ArrStrLink.Instance.Test_RemoveDuplicatesII();
+            ArrStrLink.Instance.Test_SimplifyPath();
+            Matrix.Instance.Test_GenerateMatrix();
             ArrStrLink.Instance.Test_ReorderList();
             Matrix.Instance.Test_SpiralOrder();
             BackTrack.Instance.Test_PermuteUnique();

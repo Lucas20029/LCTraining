@@ -577,6 +577,73 @@ namespace LCTraining
 
         #endregion
 
+        #region 字符串 -- 中级
+        #region 71 简化路径
+        public void Test_SimplifyPath()
+        {
+            var res1 = SimplifyPath("/home/") == "/home";
+            var res2 = SimplifyPath("/../") == "/";
+            var res3 = SimplifyPath("/home//foo/") == "/home/foo";
+            var res4 = SimplifyPath("/a/./b/../../c/") == "/c";
+        }
+        public string SimplifyPath(string path)
+        {
+            var dirs = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            List<string> finalDirs = new List<string>();
+            foreach(var dir in dirs)
+            {
+                if (dir == ".")
+                    continue;
+                if (dir == "..")
+                {
+                    if(finalDirs.Count>0)
+                        finalDirs.RemoveAt(finalDirs.Count - 1);
+                }
+                else
+                {
+                    finalDirs.Add(dir);
+                }
+            }
+            var res = "/" + string.Join("/", finalDirs);
+            return res;
+        }
+        #endregion
+        #region 80 删除有序数组中的重复项II
+        //只有重复两次以上的项，才删除
+        public void Test_RemoveDuplicatesII()
+        {
+            var res1 = RemoveDuplicatesII(new[] { 1, 1, 1, 2, 2 }); //1,1,2,2
+            var res2= RemoveDuplicatesII(new[] { 1, 1, 2, 2, 1, 1, 2, 2, 3, 3, 5, 3 }); //1,1,2,2,3,3,5
+        }
+        public int RemoveDuplicatesII(int[] nums)
+        {
+            int curInx = 0;
+            Dictionary<int, int> numCount = new Dictionary<int, int>();
+            for(int i = 0; i < nums.Length; i++)
+            {
+                int num = nums[i];
+                if (num == int.MinValue)
+                    continue;
+                if (!numCount.ContainsKey(num))
+                    numCount[num] = 0;
+                numCount[num] = numCount[num] + 1;
+
+                if (numCount[num] > 2)
+                {
+                    continue;
+                }
+                else
+                {
+                    nums[curInx] = num;
+                    curInx++;
+                }
+            }
+            return curInx;
+        }
+        #endregion
+        #endregion
+
         #region 数组--中级
         #region 三数之和
         //先排序，外循环遍历数组， 内循环 双指针找指定和
@@ -1293,6 +1360,9 @@ namespace LCTraining
             }
             return newHead;
         }
+        #endregion
+
+        #region 
         #endregion
 
     }
