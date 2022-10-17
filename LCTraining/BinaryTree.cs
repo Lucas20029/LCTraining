@@ -452,7 +452,44 @@ namespace ConsoleApp1
                     DFSTravel(grid, i, j + 1, m, n);
             }
         }
-        
+
+        #endregion
+
+        #region 129.求根节点到叶节点数字之和
+        /*
+         * 测试用例：   1->(2,3)   2->(4,5)  路径数字为： 124,125,13， 累加起来 262
+         * 前序遍历，把计算好的数据传入子节点递归函数中
+         */
+        public void Test_SumNumbers()
+        {
+            var node = Build();
+            var res1 = SumNumbers(node); //
+        }
+        public int SumNumbers(TreeNode root)
+        {
+            if (root == null)
+                return 0;
+            SumNumbers_SubTree(root, 0);
+            return TempTreeNumbers.Sum();
+        }
+        List<int> TempTreeNumbers = new List<int>();
+        public void SumNumbers_SubTree(TreeNode current, int parentNumber)
+        {
+            var number = parentNumber * 10 + current.val;
+            if (current.left==null && current.right == null) //到达叶子节点
+            {
+                TempTreeNumbers.Add(number);
+                return;
+            }
+            if (current.left != null)
+            {
+                SumNumbers_SubTree(current.left, number);
+            }
+            if (current.right != null)
+            {
+                SumNumbers_SubTree(current.right, number);
+            }
+        }
         #endregion
 
         #region Test
