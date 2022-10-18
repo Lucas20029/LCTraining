@@ -238,6 +238,47 @@ namespace ConsoleApp1
             return true;
         }
         #endregion
+
+        #region 112 路径总和
+        /*示例：   1->(2,3)  2->(6,7)  寻找目标 11，  即 1->3->7，返回true，存在该路径
+         * 前序遍历， 向递归内函数传递当前累加的值， 到叶子节点终止递归*/
+        public void Test_HasPathSum()
+        {
+            var node = Build();
+            var res1 = HasPathSum(node, 16);
+            var res2 = HasPathSum(node, 20);
+        }
+        public bool HasPathSum(TreeNode root, int targetSum)
+        {
+            if (root == null)
+                return 0;
+            return HasPathSum_CalcSub(root, targetSum, 0);
+        }
+        public bool HasPathSum_CalcSub(TreeNode node,int targetSum, int curSum)
+        {
+            var sum = curSum + node.val;
+            if (node.left==null && node.right==null)
+            {
+                if (sum == targetSum)
+                    return true;
+                else
+                    return false;
+            }
+            if (node.left != null)
+            {
+                var leftResult= HasPathSum_CalcSub(node.left, targetSum, sum);
+                if (leftResult == true)
+                    return true;
+            }
+            if (node.right != null)
+            {
+                var rightResult =HasPathSum_CalcSub(node.right, targetSum, sum);
+                if (rightResult == true)
+                    return true;
+            }
+            return false;
+        }
+        #endregion
         #endregion
 
         #region 二叉树 -- 中级
