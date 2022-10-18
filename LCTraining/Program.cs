@@ -12,6 +12,7 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            Mathimatics.Instance.Test_NumTrees();
             BinaryTree.Instance.Test_SumNumbers();
             Matrix.Instance.Test_SearchMatrix();
             ArrStrLink.Instance.Test_RemoveDuplicatesII();

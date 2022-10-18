@@ -319,5 +319,57 @@ namespace ConsoleApp1.MathAlgorithm
         }
         #endregion
         #endregion
+
+        #region 特殊 -- 卡特兰数
+        /*
+         * Q96： 给定数字n，求可以组成多少种 二叉搜索树？
+         * 
+         * -- 这是卡特兰数的经典题目。  
+         * 
+         * 卡特兰数的特点：  f(n)= f(0)f(n-1) + f(1)f(n-2) +......+ f(n-1)f(0)
+         * 
+         * 以本题为例，
+         *  若i为二叉搜索树的根节点， 那么， 有i-1个节点，必然挂在i的left下； 有n-i个节点，必然挂在i的right下。
+         *  而挂在left下的i-1个节点组成的 子二叉搜索树 又是f(i-1)的问题； 同样，right下的n-i个节点组成的 子二叉搜索树 也是 f(n-i)的问题。
+         *  而左右各自不同的挂法，是个排列问题，因此是f(left)*f(right)，即f(i-1)*f(n-i)；
+         *  
+         *  例如，有5个节点，以3为根节点，那么，1、2在3的left下， 4、5在3的right下。即：f(3-1)*f(5-3) = f(2)*f(2)
+         *  而，f(2)= f(0)*f(1)+f(1)*f(0) = 1+1 = 2
+         * 
+         * 卡特兰数的其他经典题目：
+         *     1. n个数，入栈顺序为 1,2,3,4,5...n， 求有多少种出栈可能。注意：入栈操作中可能插入出栈操作。 例如，n=3，  in(1) -> in(2) - out(2) - out(1) - in(3) - out(3)， 即213 为一种可能。
+         *        解析： 我们这样想，最后一个出栈的数是k， 那么 比k早进栈且早出栈的有k-1个数，一共有h(k-1)种方案；比k晚进栈且早出栈的有n-k个数，一共有h(n-k)种方案。所以一共有h(k-1)*h(n-k)种方案
+         * 
+         * 在计算时，由于f(i)是确定的数，因此可以缓存。
+        */
+
+        #region 96. 不同的二叉搜索树  
+        public void Test_NumTrees()
+        {
+            var res0 = NumTrees(0);
+            var res1 = NumTrees(1);
+            var res2 = NumTrees(2);
+            var res3 = NumTrees(3);
+            var res4 = NumTrees(4);
+        }
+        public int NumTrees(int n)
+        {
+            if (n == 0 || n == 1)
+                return 1;
+            int[] arr = new int[n+1];
+            arr[0] = arr[1] = 1;
+            for(int i = 2; i <= n; i++)
+            {
+                int sum = 0;
+                for(int j = 0; j < i; j++)
+                {
+                    sum += arr[j] * arr[i - j-1];
+                }
+                arr[i] = sum;
+            }
+            return arr[n];
+        }
+        #endregion
+        #endregion
     }
 }
