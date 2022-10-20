@@ -12,6 +12,7 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            BackTrack.Instance.Test_Combine();
             BinaryTree.Instance.Test_HasPathSum();
             BinaryTree.Instance.Test_SumNumbers();
             Matrix.Instance.Test_SearchMatrix();

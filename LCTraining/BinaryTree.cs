@@ -251,7 +251,7 @@ namespace ConsoleApp1
         public bool HasPathSum(TreeNode root, int targetSum)
         {
             if (root == null)
-                return 0;
+                return false;
             return HasPathSum_CalcSub(root, targetSum, 0);
         }
         public bool HasPathSum_CalcSub(TreeNode node,int targetSum, int curSum)
