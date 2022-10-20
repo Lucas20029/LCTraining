@@ -533,6 +533,62 @@ namespace ConsoleApp1
         }
         #endregion
 
+
+        #region 99. 恢复二叉搜索树
+        /*
+        先中序遍历，获取顺序。然后检查列表顺序，找出不符合顺序的节点，交换值 
+        */
+        public void Test_RecoverTree()
+        {
+            TreeNode root = new TreeNode(6) 
+            {
+                left = new TreeNode(3) { left = new TreeNode(2), right=new TreeNode(4) } ,
+                right = new TreeNode(7) { left = new TreeNode(5), right= new TreeNode(9)}
+            };
+            RecoverTree(root);
+        }
+        public void RecoverTree(TreeNode root)
+        {
+            var treeNodes = new List<TreeNode>();
+            RecoverTree_BSF(root, treeNodes);
+
+            TreeNode firstNode=null, secondNode = null;
+            for(int i = 0; i < treeNodes.Count - 1; i++)
+            {
+                if (treeNodes[i].val > treeNodes[i + 1].val)
+                {
+                    if (firstNode == null)
+                    {
+                        firstNode = treeNodes[i];
+                        secondNode = treeNodes[i + 1];
+                    }
+                    else
+                    {
+                        secondNode = treeNodes[i + 1];
+                    }
+                }
+            }
+
+            if(firstNode!=null && secondNode != null)
+            {
+                int temp = firstNode.val;
+                firstNode.val = secondNode.val;
+                secondNode.val = temp;
+            }
+        }
+
+        public void RecoverTree_BSF(TreeNode node, List<TreeNode> treeNodes)
+        {
+            if (node.left != null)
+                RecoverTree_BSF(node.left, treeNodes);
+
+            treeNodes.Add(node);
+
+            if (node.right != null)
+                RecoverTree_BSF(node.right, treeNodes);
+        }
+        #endregion
+
         #region Test
         public TreeNode Build()
         {
