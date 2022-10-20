@@ -53,6 +53,25 @@ namespace ConsoleApp1
             return Math.Max(MaxDepth(root.left), MaxDepth(root.right)) + 1;
         }
         #endregion
+        #region 111 二叉树的最小深度
+        public int MinDepth(TreeNode root)
+        {
+            if (root == null)
+                return 0;
+            int min = int.MaxValue;
+            MinDepth_Sub(root, 0, ref min);
+            return min;
+        }
+        public void MinDepth_Sub(TreeNode node, int depth, ref int minDepth)
+        {
+            if (node.left == null && node.right == null)
+                minDepth = Math.Min(depth, minDepth);
+            if (node.left != null)
+                MinDepth_Sub(node.left, depth + 1, ref minDepth);
+            if (node.right != null)
+                MinDepth_Sub(node.right, depth + 1, ref minDepth);
+        }
+        #endregion
 
         #region 验证二叉搜索树
         //解法1：递归
