@@ -298,6 +298,61 @@ namespace ConsoleApp1
             return false;
         }
         #endregion
+
+        #region 110. 平衡二叉树
+        /* 自己做的。 递归实现逻辑
+         * **/
+        public void Test_IsBalanced()
+        {
+            TreeNode root = new TreeNode(1)
+            {
+                left = new TreeNode(2),
+                right = new TreeNode(3)
+                {
+                    left = new TreeNode(4)
+                    {
+                        left = new TreeNode(5),
+                        right = new TreeNode(6)
+                    },
+                    right = new TreeNode(7)
+                }
+            };
+            var isbal = IsBalanced(root);
+        }
+
+        public bool IsBalanced(TreeNode root)
+        {
+            return GetDepth(root).Item1;
+        }
+
+        public Tuple<bool,int,int> GetDepth(TreeNode node)
+        {
+            if (node == null)
+                return new Tuple<bool, int, int>(true,0,0);
+
+            int leftDepth = 0;
+            int rightDepth = 0;
+            bool isLeftBal = true;
+            bool isRightBal = true;
+
+            if(node.left!=null)
+            {
+                var left = GetDepth(node.left);
+                leftDepth = Math.Max(left.Item2, left.Item3);
+                isLeftBal = left.Item1;
+            }
+            if (node.right != null)
+            {
+                var right = GetDepth(node.right);
+                rightDepth = Math.Max(right.Item2, right.Item3);
+                isRightBal = right.Item1;
+            }
+
+            var isbal = isLeftBal && isRightBal && (Math.Abs(leftDepth - rightDepth) <= 1);
+            return new Tuple<bool, int, int>(isbal, leftDepth+1, rightDepth+1);
+        }
+        #endregion
+
         #endregion
 
         #region 二叉树 -- 中级

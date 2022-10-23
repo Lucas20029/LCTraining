@@ -161,6 +161,39 @@ namespace ConsoleApp1.MathAlgorithm
             return stringBuilder.ToString();
         }
         #endregion
+
+        #region 168 Excel表列名称  (看答案会的)
+        /* A=0,B=1,C=2,,,,Z=25 : (Num-1)%26
+         * Num/26
+         * AA=26, AB=27, BA=53,BB=54,ZA=651,ZB=652,ZZ=676: 
+         * 以651为例： 
+         *   循环1：（651-1）%26 = 0 ->A,   651/26=1
+         *   循环2： （1-1）%26=0 ->A 
+         * 以676为例：
+         *   循环1： （676-1）%26 = 25 ->Z， 676/26=26
+         *   循环2： （26-1）%26 = 25 ->Z
+         * 
+         * 总结规律： (num-1)%26 得末位， num/26得到下一循环的num，继续循环计算
+         ***/
+        public void Test_ConvertToTitle()
+        {
+            var res1 = ConvertToTitle(26);//Z
+            var res2 = ConvertToTitle(27);//AA
+            var res3 = ConvertToTitle(676);//ZZ
+            var res4 = ConvertToTitle(17576);//AAAZ
+        }
+        public string ConvertToTitle(int columnNumber)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            while (columnNumber>0)
+            {
+                char c = (char)((--columnNumber) % 26 + 'A');
+                stringBuilder.Insert(0, c);
+                columnNumber = columnNumber / 26;
+            }
+            return stringBuilder.ToString();
+        }
+        #endregion
         #endregion
 
         #region 数学中级

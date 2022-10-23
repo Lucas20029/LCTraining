@@ -12,6 +12,8 @@ namespace LCTraining
     {
         static void Main(string[] args)
         {
+            BinaryTree.Instance.Test_IsBalanced();
+            Mathimatics.Instance.Test_ConvertToTitle();
             BinaryTree.Instance.Test_Exist();
             BinaryTree.Instance.Test_RecoverTree();
             BackTrack.Instance.Test_Combine();
