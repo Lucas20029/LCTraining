@@ -21,7 +21,7 @@ namespace ConsoleApp1
                 this.right = right;
             }
         }
-        public class NodeWithNext 
+        public class NodeWithNext
         {
             public int val;
             public NodeWithNext left;
@@ -94,7 +94,7 @@ namespace ConsoleApp1
             if (!IsValidBST_MiddleFirst(root.right))
                 return false;
             return true;
-            
+
         }
         #endregion
 
@@ -169,9 +169,9 @@ namespace ConsoleApp1
             List<TreeNode> nextLevel = new List<TreeNode>();
             foreach (var node in nodes)
             {
-                if(node.left!=null)
+                if (node.left != null)
                     nextLevel.Add(node.left);
-                if(node.right!=null)
+                if (node.right != null)
                     nextLevel.Add(node.right);
             }
             if (nextLevel.Any())
@@ -183,7 +183,7 @@ namespace ConsoleApp1
         public List<IList<int>> Map(List<IList<TreeNode>> nodes)
         {
             List<IList<int>> result = new List<IList<int>>();
-            foreach(var nodelist in nodes)
+            foreach (var nodelist in nodes)
             {
                 result.Add(nodelist.Select(p => p.val).ToList());
             }
@@ -217,7 +217,7 @@ namespace ConsoleApp1
             var q = new TreeNode { val = 1, left = new TreeNode { val = 2 }, right = new TreeNode { val = 3 } };
             var res = IsSameTree(p, q);
 
-            var p1 = new TreeNode { val = 1,  right = new TreeNode { val = 3 } };
+            var p1 = new TreeNode { val = 1, right = new TreeNode { val = 3 } };
             var q1 = new TreeNode { val = 1, left = new TreeNode { val = 3 } };
             var res1 = IsSameTree(p1, q1);
         }
@@ -254,10 +254,10 @@ namespace ConsoleApp1
                 return false;
             return HasPathSum_CalcSub(root, targetSum, 0);
         }
-        public bool HasPathSum_CalcSub(TreeNode node,int targetSum, int curSum)
+        public bool HasPathSum_CalcSub(TreeNode node, int targetSum, int curSum)
         {
             var sum = curSum + node.val;
-            if (node.left==null && node.right==null)
+            if (node.left == null && node.right == null)
             {
                 if (sum == targetSum)
                     return true;
@@ -266,13 +266,13 @@ namespace ConsoleApp1
             }
             if (node.left != null)
             {
-                var leftResult= HasPathSum_CalcSub(node.left, targetSum, sum);
+                var leftResult = HasPathSum_CalcSub(node.left, targetSum, sum);
                 if (leftResult == true)
                     return true;
             }
             if (node.right != null)
             {
-                var rightResult =HasPathSum_CalcSub(node.right, targetSum, sum);
+                var rightResult = HasPathSum_CalcSub(node.right, targetSum, sum);
                 if (rightResult == true)
                     return true;
             }
@@ -309,7 +309,7 @@ namespace ConsoleApp1
             Stack<TreeNode> stackNext = new Stack<TreeNode>();
             stack.Push(root);
             result.Add(new List<int>());
-            while (stack.Count>0)
+            while (stack.Count > 0)
             {
                 var node = stack.Pop();
                 result.Last().Add(node.val);
@@ -361,16 +361,16 @@ namespace ConsoleApp1
             var leftPreOrder = preorder.Skip(1).Take(leftCount).ToArray();
             var rightPreOrder = preorder.Skip(1 + leftCount).Take(rightCount).ToArray();
 
-            if(leftCount>0)
+            if (leftCount > 0)
                 root.left = BuildTree(leftPreOrder, leftInorder);
-            if(rightCount>0)
+            if (rightCount > 0)
                 root.right = BuildTree(rightPreOrder, rightInorder);
 
             return root;
         }
-        private int IndexOf(int [] seq, int num)
+        private int IndexOf(int[] seq, int num)
         {
-            for(int i =0;i<seq.Length;i++)
+            for (int i = 0; i < seq.Length; i++)
             {
                 if (seq[i] == num)
                     return i;
@@ -394,7 +394,7 @@ namespace ConsoleApp1
                 if (!queue.Any())
                 {
                     queue = nextQueue;
-                    nextQueue=new Queue<NodeWithNext>();
+                    nextQueue = new Queue<NodeWithNext>();
                     prevNode = null;
                 }
                 var node = queue.Dequeue();
@@ -403,9 +403,9 @@ namespace ConsoleApp1
                     prevNode.next = node;
                 }
                 prevNode = node;
-                if(node.left!=null)
+                if (node.left != null)
                     nextQueue.Enqueue(node.left);
-                if(node.right!=null)
+                if (node.right != null)
                     nextQueue.Enqueue(node.right);
             }
             return root;
@@ -462,10 +462,10 @@ namespace ConsoleApp1
             if (grid == null || grid.Length == 0)
                 return 0;
             var m = grid.Length;
-            var n= grid[0].Length;
-            for (var i= 0;i < m; i++)
+            var n = grid[0].Length;
+            for (var i = 0; i < m; i++)
             {
-                for(int j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
                     if (grid[i][j] != '0')
                     {
@@ -476,24 +476,132 @@ namespace ConsoleApp1
             }
             return islandCount;
         }
-        public void DFSTravel(char[][] grid, int i,int j, int m, int n)
+        public void DFSTravel(char[][] grid, int i, int j, int m, int n)
         {
             if (grid[i][j] == '0')
                 return;
             if (grid[i][j] == '1')
             {
                 grid[i][j] = '0';
-                if(i!=0)
+                if (i != 0)
                     DFSTravel(grid, i - 1, j, m, n);
-                if(i!=m-1)
+                if (i != m - 1)
                     DFSTravel(grid, i + 1, j, m, n);
-                if(j!=0)
+                if (j != 0)
                     DFSTravel(grid, i, j - 1, m, n);
-                if(j!=n-1)
+                if (j != n - 1)
                     DFSTravel(grid, i, j + 1, m, n);
             }
         }
 
+        #endregion
+
+        #region 79 单词搜索
+        /*
+         出错的点：
+         1. 计算矩阵坐标 x、y， 容易搞反。  board[x][y] 哪是横坐标、哪是纵坐标。。 遍历、检查边界是， 哪个对于board.length, 哪个对应 board[0].length
+         2. 没有检查 [['a']] 的情况
+         3. 不要用Clone这种浅复制，没用。 只是复制了二维数组的竖向指针。
+         4. 出现不匹配的，记得要把值设置回去。让其他分支还能用
+             */
+        public void Test_Exist()
+        {
+            //char[][] word = new[]
+            //{
+            //    new[] { 'a', 'd', 'c', 'd', 'e', 'f' },
+            //    new[] { 'e', 'd', 'a', 'f', 'z', 'x' },
+            //    new[] { 'n', 'm', 'k', 'f', 't', 'y' },
+            //    new[] { 'g', 'h', 'k', 'e', 'p', 'v' },
+            //};
+            char[][] word = new[]
+            {
+                new[] { 'a', 'b', 'c', 'e' },
+                new[] { 's', 'f', 'c', 's' },
+                new[] { 'a', 'd', 'e', 'e' }
+            };
+            var result = Exist(word, "abceseecfs");
+            char[][] word1 = new[] { new[] { 'a' } };
+            var result1 = Exist(word1, "a");
+            char[][] word2 = new[]
+            {
+                new []{ 'c','a','a' },
+                new []{ 'a','a','a' },
+                new []{ 'b','c','d' },
+            };
+            var result2 = Exist(word2, "aab");
+        }
+
+        public bool Exist(char[][] board, string word)
+        {
+            int width = board[0].Length;
+            int height = board.Length;
+            if (width == 1 && height == 1)
+            {
+                return word.Length==1&& board[0][0]==word[0];
+            }
+            var newboard = new char[height][];
+            for(int i =0;i<height;i++)
+                newboard[i]= new char[width];
+
+            for(int x = 0; x < height; x++)
+            {
+                for(int y = 0; y < width; y++)
+                {
+                    if (board[x][y] == word[0])
+                    {
+
+                        DeepCopy(board, newboard);
+                        if(Exist_FindFromCell(newboard, x, y, word,0))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        public void DeepCopy(char[][] board, char[][] newboard)
+        {
+            for(int i = 0; i < board.Length; i++)
+            {
+                for(int j = 0; j < board[0].Length; j++)
+                {
+                    newboard[i][j] = board[i][j];
+                }
+            }
+        }
+        public bool Exist_FindFromCell(char[][] board, int x, int y, string word, int wordIdx)
+        {
+            if (wordIdx >= word.Length)
+                return true;
+            if (board[x][y] != word[wordIdx])
+                return false;
+            char temp = board[x][y];
+            board[x][y] = '-';
+
+            bool subResult = false;
+            if (x > 0)
+            {
+                subResult |= Exist_FindFromCell(board, x - 1, y, word, wordIdx + 1);
+            }
+            if (x < board.Length-1)
+            {
+                subResult |= Exist_FindFromCell(board, x + 1, y, word, wordIdx + 1);
+            }
+            if (y > 0)
+            {
+                subResult |= Exist_FindFromCell(board, x, y - 1, word, wordIdx + 1);
+            }
+            if(y< board[0].Length-1)
+            {
+                subResult |= Exist_FindFromCell(board, x, y + 1, word, wordIdx + 1);
+            }
+            if (subResult == false)
+                board[x][y] = temp;
+
+            return subResult;
+
+        }
         #endregion
 
         #region 129.求根节点到叶节点数字之和
