@@ -263,5 +263,38 @@ namespace LCTraining
         }
 
         #endregion
+
+        #region 77 组合
+        public void Test_Combine()
+        {
+            Combine(4, 2);
+            combine_result.Clear();
+            Combine(4, 3);
+            combine_result.Clear();
+            Combine(4, 1);
+            combine_result.Clear();
+        }
+        public IList<IList<int>> Combine(int n, int k)
+        {
+            Combine_Sub(n, k, new List<int>());
+            return combine_result;
+        }
+        List<IList<int>> combine_result = new List<IList<int>>();
+        public void Combine_Sub(int n , int k, List<int> buildingLst)
+        {
+            var start = buildingLst.Any() ? buildingLst.Last()+1 : 1;
+            for(int i = start; i <= n; i++)
+            {
+                var newlst = buildingLst.ToList();
+                newlst.Add(i);
+                if (newlst.Count == k)
+                {
+                    combine_result.Add(newlst);
+                    continue;
+                }
+                Combine_Sub(n, k, newlst);
+            }
+        }
+        #endregion
     }
 }

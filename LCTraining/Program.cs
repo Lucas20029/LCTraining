@@ -14,6 +14,7 @@ namespace LCTraining
         {
             BinaryTree.Instance.Test_Exist();
             BinaryTree.Instance.Test_RecoverTree();
+            BackTrack.Instance.Test_Combine();
             BinaryTree.Instance.Test_HasPathSum();
             Mathimatics.Instance.Test_NumTrees();
             BinaryTree.Instance.Test_SumNumbers();
